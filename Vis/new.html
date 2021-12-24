@@ -1,0 +1,149 @@
+<html lang='en'>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        .captionpdf {
+            font-size: 1.5em;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class='container'>
+        <div class='row mt-3 mb-3'>
+            <div class='col'>
+                <h1 style="text-align:center;">Attention Regression -- Results</h1>
+            </div>
+        </div>
+        <div class='center' style="width:650px; margin:0 auto;">
+            <form class='form-inline'>
+                <div class="form-group mb-2">
+		            <label class="col-form-label" for="dataset">Dataset: </label>
+                    <select name="Dataset" id="dataset" class="form-control">
+                        <option value="synthetic">Synthetic</option>
+                        <option value="sst">SST</option>
+                        <option value="imdb">IMDB</option>
+                        <option value="20News_sports">20 NewsGroup</option>
+                        <option value="agnews">AG News</option>
+                    </select>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label class="col-form-label" for="experiment">Experiment: </label>
+                    <select name="Experiment" id="experiment" class="form-control">
+                        <option value="metric">Metric</option>
+                        <option value="gradient">Gradients</option>
+                        <option value="erasure">Feature Erasure</option>
+                        <option value="erasure_abs">Feature Erasure ABS</option>
+                        <option value="permutation">Attention Permutation</option>
+                        <option value="random">Attention Randomization</option>
+                    </select>
+                    
+                </div>
+                <button type='button' class="btn btn-primary mb-2" id="submitform">Submit</button>
+            </form>
+        </div>
+        <div class='row'>
+            <div class="col" width="100%" height="100%">
+                <figure class="figure">
+                    <!-- <canvas id="pdfaveragetanh"></canvas> -->
+                    <img id="softmax1" src="graph_outputs/synthetic/metric/picture1.png" type="image/svg+xml" width=300 height=300></object>
+                    <figcaption class='captionpdf'>Softmax Picture1</figcaption>
+                    <figcaption class='captionpdf' id='softmaxtxt1'></figcaption>
+                </figure>
+            </div>
+            <div class="col" width="100%" height="100%">
+                <figure class="figure">
+                    <!-- <canvas id="pdfcnntanh"></canvas> -->
+                    <img id="softmax2" src="graph_outputs/synthetic/metric/picture2.png" type="image/svg+xml" width=300 height=300></object>
+                    <figcaption class='captionpdf'>Softmax Picture2</figcaption>
+                    <figcaption class='captionpdf' id='softmaxtxt2'></figcaption>
+                </figure>
+            </div>
+            <div class="col" width="100%" height="100%">
+                <figure class="figure">
+                    <!-- <canvas id="pdflstmtanh"></canvas> -->
+                    <img id="softmax3" src="graph_outputs/synthetic/metric/picture3.png" type="image/svg+xml" width=300 height=300></object>
+                    <figcaption class='captionpdf'>Softmax Picture3</figcaption>
+                    <figcaption class='captionpdf' id='softmaxtxt3'></figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class='row'>
+            <div class="col" width="100%" height="100%">
+                <figure class="figure">
+                    <!-- <canvas id="pdfaveragedot"></canvas> -->
+                    <img id="tanhmax1" src="graph_outputs/synthetic/metric/picture4.png" type="image/svg+xml" width=300 height=300></object>
+                    <figcaption class='captionpdf'>TanhMax Picture1</figcaption>
+                    <figcaption class='captionpdf' id='tanhmaxtxt1'></figcaption>
+                </figure>
+            </div>
+            <div class="col" width="100%" height="100%">
+                <figure class="figure">
+                    <!-- <canvas id="pdfcnndot"></canvas> -->
+                    <img id="tanhmax2" src="graph_outputs/synthetic/metric/picture5.png" type="image/svg+xml" width=300 height=300></object>
+                    <figcaption class='captionpdf'>TanhMax Picture2</figcaption>
+                    <figcaption class='captionpdf' id='tanhmaxtxt2'></figcaption>
+                </figure>
+            </div>
+            <div class="col" width="100%" height="100%">
+                <figure class="figure">
+                    <!-- <canvas id="pdflstmdot"></canvas> -->
+                    <img id="tanhmax3" src="graph_outputs/synthetic/metric/picture6.png" type="image/svg+xml" width=300 height=300></object>
+                    <figcaption class='captionpdf'>TanhMax Picture3</figcaption>
+                    <figcaption class='captionpdf' id='tanhmaxtxt3'></figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class='row'>
+            <div class="col" width="100%" height="100%">
+                <div id="caption_fig">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            $('#submitform').click(function(){
+                console.log('clicked');
+                var dataset = $('#dataset').val();
+                var experiment = $('#experiment').val();
+                console.log(dataset);
+                console.log(experiment);
+                var attentions = ['tanh', 'dot'];
+                var encoders = ['average', 'cnn', 'lstm'];
+
+                document.getElementById("softmax1").src = 'graph_outputs/' + dataset + '/' + experiment + '/' + "picture1.png";
+				document.getElementById("softmax2").src = 'graph_outputs/' + dataset + '/' + experiment + '/' + "picture2.png";
+				document.getElementById("softmax3").src = 'graph_outputs/' + dataset + '/' + experiment + '/' + "picture3.png";
+				document.getElementById("tanhmax1").src = 'graph_outputs/' + dataset + '/' + experiment + '/' + "picture4.png";
+				document.getElementById("tanhmax2").src = 'graph_outputs/' + dataset + '/' + experiment + '/' + "picture5.png";
+				document.getElementById("tanhmax3").src = 'graph_outputs/' + dataset + '/' + experiment + '/' + "picture6.png";
+                
+                var json_url = 'test.json'
+                        $.ajax({
+                            url: json_url, 
+                            crossOrigin: null,
+                            success: function(data){
+
+                            }
+                        });
+            });
+
+            $('#submitform').trigger('click');
+        });
+    </script>
+</body>
+
+</html>
